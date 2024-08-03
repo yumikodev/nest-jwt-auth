@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { PrismaModule } from "./prisma/prisma.module";
 import env from "./config/env";
 
 @Module({
@@ -9,6 +10,7 @@ import env from "./config/env";
       isGlobal: true,
       load: [env],
     }),
+    PrismaModule,
   ],
   controllers: [],
   providers: [],
