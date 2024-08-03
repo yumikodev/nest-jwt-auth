@@ -26,7 +26,7 @@ export class AuthGuard implements CanActivate {
 
     const exp = authHeader.slice(0, 7).trim();
 
-    if (/[Bb]earer/g.test(exp))
+    if (!/[Bb]earer/g.test(exp))
       throw new BadRequestException("Invalid authorization header");
 
     const { ACCESS_SECRET } = this.config.get<JwtConfig>("JWT");
