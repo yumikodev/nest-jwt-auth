@@ -63,12 +63,13 @@ export class AuthService {
   async refresh({ token }: RefreshDto) {
     const { REFRESH_SECRET } = this.config.get<JwtConfig>("JWT");
 
-    const { userId } = await this.jwt.verifyAsync<Record<"userId", string>>(
-      token,
-      {
+    const { userId } = await this.jwt
+      .verifyAsync<Record<"userId", string>>(token, {
         secret: REFRESH_SECRET,
-      },
-    );
+      })
+      .catch(() => {
+        throw new BadRequestException("Invalid refresh token");
+      });
 
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
